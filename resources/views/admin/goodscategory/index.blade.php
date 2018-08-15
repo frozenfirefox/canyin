@@ -1,0 +1,127 @@
+@extends('admin.layouts.admin')
+
+@section('admin-css')
+    <link href="{{ asset('asset_admin/assets/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('asset_admin/assets/plugins/bootstrap-sweetalert-master/dist/sweetalert.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('asset_admin/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('asset_admin/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css') }}" rel="stylesheet" />
+@endsection
+
+@section('admin-content')
+    <div id="content" class="content">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb pull-right">
+            <li><a href="{{ url('admin') }}">首页</a></li>
+            <li><a href="javascript:;">商品分类</a></li>
+            <li class="active">商品分类</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header">商品分类 <small>商品分类页面</small></h1>
+        <!-- end page-header -->
+        <!-- begin row -->
+        <div class="row">
+            <!-- begin col-6 -->
+            <div class="col-md-12">
+                <!-- begin panel -->
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                        <h4 class="panel-title">列表</h4>
+                    </div>
+                    <div class="panel-body" id="pic">
+                        @if(auth('admin')->user()->can('goodscategory.add'))
+                            <a href="{{ url('admin/goodscategory/create') }}">
+                                <button type="button" class="btn btn-primary m-r-5 m-b-5"><i class="fa fa-plus-square-o"></i> 新增</button>
+                            </a>
+                        @endif
+                        <table class="table table-bordered table-hover" id="datatable">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>商品ID</th>
+                                <th>名称</th>
+                                <th>缩略名</th>
+                                <th>分类图标</th>
+                                <th>父ID</th>
+                                <th>平台分成比例</th>
+                                <th>排序</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <!-- end panel -->
+            </div>
+            <!-- end col-6 -->
+        </div>
+        <!-- end row -->
+        @include('admin.layouts.loading')
+    </div>
+@endsection
+
+@section('admin-js')
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/gritter/js/jquery.gritter.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/bootstrap-sweetalert-master/dist/sweetalert.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('asset_admin/assets/plugins/viewerjs/dist/viewer.js') }}"></script>
+    <script src="{{ asset('asset_admin/js/datatable.lang.js')}}"></script>
+    <script src="{{ asset('asset_admin/js/goodscategory.list.js')}}"></script>
+    <script>
+        $(function(){
+            @if (session()->has('flash_notification.goodscategory'))
+                //通知信息
+                $.gritter.add({
+                    title: '操作消息！',
+                    text: '{!! session('flash_notification.goodscategory') !!}'
+                });
+            @endif
+
+            //删除
+            $(document).on('click','.destroy',function(){
+                var _delete_id = $(this).attr('data-id');
+                swal({
+                        title: "确定删除？",
+                        text: "删除将不可逆，请谨慎操作！",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        cancelButtonText: "取消",
+                        confirmButtonText: "确定",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $('form[name=delete_item_'+_delete_id+']').submit();
+                    }
+                );
+            });
+                        vue = new Vue({
+                            el: '#content',
+                            data: function(){
+                                return {
+                                    loading: false
+                                }
+                            },
+                            mounted: function(){
+                                this.ajaxInitClasses();
+                            },
+                            methods: {
+                                ajaxInitClasses: function(){
+                                    goodscategory(this);
+                                }
+                            }
+                        });
+        });
+    </script>
+
+@endsection

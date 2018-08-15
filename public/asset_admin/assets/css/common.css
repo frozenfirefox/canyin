@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+/**
+ *
+ *这是我们自己定义的公共css
+ *
+ */
+.wt-hide{
+    display: none;
+}
+.panel-toolbar{
+    text-align: center;
+}
+.panel-toolbar > ul > li{
+    list-style: none;
+    display: inline-block;
+    margin: 10px 10px 0 10px;
+}
+.comment_div{
+    line-height: 30px;
+    margin-left: 300px;
+}
+.comment_div_top{
+    line-height: 60px;
+    margin-left: 300px;
+}
+.comment_a{
+    cursor:pointer;
+    float: right;
+    margin-right: 300px;
+}
+.sidebar, .sidebar-bg {
+    background: rgb(5, 46, 82) !important;
+}
+.panel-inverse>.panel-heading {
+    background: rgb(5, 46, 82);
+}
+.btn.btn-admin-login {
+    color: #fff;
+    background: #ec130f;
+    border-color: #ec130f;
+}
+.login .login-header .brand .logo {
+    border: 14px solid transparent;
+    border-color: #ff5b57 #f10323 #ff5b57;
+}
+#page_test{
+    width: 100%;
+    line-height: 35px;
+    text-align: right;
+}
+#page_test span{
+    cursor: pointer;
+    font-size: 15px;
+    /*min-width: 60px;*/
+    width: 60px;
+    display: inline-block;
+    border-radius: 4px;
+}
+#page_test span:hover{
+    border-color: #242a30!important;
+
+}
+#page_test span.active{
+    margin-left: 20px;
+    text-align: center;
+    background: #242a30!important;
+    border-color: #242a30!important;
+    color: white;
+}
+.loading{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
